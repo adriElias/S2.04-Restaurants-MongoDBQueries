@@ -23,7 +23,7 @@ db.restaurants.find({borough: 'Bronx'},{_id: 0}).skip(5).limit(5)
 db.restaurants.find({"grades.score": {$gt: 90} }, { _id: 0 })
 
 // 9. Trobar els restaurants amb un score de més de 80 però menys que 100.
-db.restaurants.find({$and:[{"grades.score": {$gt: 80, $lt: 100}}]}, {_id:0})
+db.restaurants.find({"grades.score": {$gt: 80, $lt: 100}}, {_id:0})
 
 // 10. Trobar els restaurants amb longitud menor que -95.754168.
 db.restaurants.find({"location.coordinates.0": {$lt: -95.754168}}, {_id:0})
@@ -35,7 +35,7 @@ db.restaurants.find({$and: [{cuisine: {$ne: "American"}}, {"grades.score": {$gt:
 db.restaurants.find({cuisine: {$ne: "American"}, "grades.score": {$gt: 70}, "location.coordinates.0": {$lt: -65.754168}}, {_id:0})
 
 // 13. Trobar restaurants que no són 'American', grau 'A', i no són de Brooklyn. Ordenats per cuisine descendent.
-db.restaurants.find({cuisine: {$ne: "American"}, "grades.grade": {$ne: "A"}, borough: {$ne: "Brooklyn"} },{_id:0}).sort({cuisine:-1})
+db.restaurants.find({cuisine: {$ne: "American"}, "grades.grade": "A", borough: {$ne: "Brooklyn"}}).sort({cuisine: -1})
 
 // 14. Trobar restaurant_id, name, borough i cuisine on el nom comença amb 'Wil'.
 db.restaurants.find({name: {$regex: /^Wil/}}, {restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0})
@@ -50,14 +50,13 @@ db.restaurants.find({name: {$regex: /reg/i}}, {restaurant_id: 1, name: 1, boroug
 db.restaurants.find({$and:[{borough: "Bronx"}, {$or:[{cuisine: "American"}, {cuisine: "Chinese"}]}]}, {_id: 0})
 
 // 18. Trobar restaurant_id, name, borough i cuisine per a Staten Island, Queens, Bronx o Brooklyn.
-db.restaurants.find({$or: [{borough: "Staten Island"},{borough: "Queens"},{borough: "Brooklyn"},{borough: "Bronx"}]},{restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0})
 db.restaurants.find({borough: {$in: ["Staten Island", "Queens", "Bronx", "Brooklyn"]}},{restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0 })
 
 // 19. Trobar restaurant_id, name, borough i cuisine per a restaurants que NO són d'aquests barris.
 db.restaurants.find({borough: {$nin:["Staten Island", "Queens", "Bronx", "Brooklyn"]}}, {restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0})
 
 // 20. Trobar restaurant_id, name, borough i cuisine amb marcador no superior a 10.
-db.restaurants.find({"grades.score": {$lt: 10}}, {restaurant_id: 1, name: 1, borough: 1, cuisine:1 , _id:0})
+db.restaurants.find({"grades.score": {$lte: 10}}, {restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0})
 
 // 21. Trobar restaurants que preparen peix, no 'American' ni 'Chinees', o nom comença amb 'Wil'.
 db.restaurants.find({$or: [{$and: [{cuisine: "Seafood"}, {cuisine: {$nin: ["American", "Chinese"]}}]}, {name: {$regex: /^Wil/}}]}, {_id:0})
@@ -82,7 +81,7 @@ db.restaurants.find({}, {_id: 0}).sort({name: -1})
 db.restaurants.find({}, {_id: 0}).sort({cuisine: 1, borough: -1})
 
 // 28. Mostrar direccions que no contenen el carrer.
-db.restaurants.find({$or: [{"address.street": {$exists: false}}, {"address.street": null}]}, {_id: 0})
+db.restaurants.find({"address.street": {$exists: false}})
 
 // 29. Seleccionar documents on el valor de `coordinate` és de tipus Double. Mostrar el name, restaurant_id i coordinades.
 db.restaurants.find({"location.coordinates": {$type: "double"}}, {name: 1, restaurant_id: 1, "location.coordinates": 1, _id: 0})
@@ -91,7 +90,6 @@ db.restaurants.find({"location.coordinates": {$type: "double"}}, {name: 1, resta
 db.restaurants.find({"grades.score": {$mod: [7, 0]}}, {restaurant_id: 1, name: 1, "grades.grade": 1, _id: 0})
 
 // 31. Trobar name, borough, longitud, latitud i cuisine per noms que contenen 'mon'.
-db.restaurants.find({name: {$regex: /mon/i}}, {name: 1, borough: 1, "location.coordinates": 1, cuisine: 1, _id: 0})
 db.restaurants.aggregate([{$match: {name: {$regex: /mon/i}}}, {$project: {name: 1, borough: 1, cuisine: 1, longitude: {$arrayElemAt: ["$location.coordinates", 0]}, latitude:  {$arrayElemAt: ["$location.coordinates", 1]}, _id: 0}}])
 
 // 32. Mostrar restaurant_id, name i grade i score de més de 80 però menys que 100.
