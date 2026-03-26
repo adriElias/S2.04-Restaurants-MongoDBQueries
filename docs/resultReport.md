@@ -42,12 +42,7 @@
 - ✔️ OK - Query **[ 12 ]**
 
 ---
-- ❌ MISMATCH - Query **[ 13 ]** Result does not match expected output.
-
-
-🧩 Mismatch at position 0:
-- **Expected:** {"address":{},"borough":"Bronx","cuisine":"Bakery","grades":[{},{},{},{},{}],"location":{},"name":"Morris Park Bake Shop","restaurant_id":30075445}
-- **Actual:** {"_id":"69c51c0644abd1cc703f530d","address":{},"borough":"Bronx","cuisine":"Bakery","grades":[{},{},{},{},{}],"location":{},"name":"Morris Park Bake Shop","restaurant_id":30075445}
+- ✔️ OK - Query **[ 13 ]**
 
 ---
 - ✔️ OK - Query **[ 14 ]**
@@ -106,12 +101,7 @@
 - ✔️ OK - Query **[ 30 ]**
 
 ---
-- ❌ MISMATCH - Query **[ 31 ]** Result does not match expected output.
-
-
-🧩 Mismatch at position 0:
-- **Expected:** {"borough":"Manhattan","cuisine":"American","location":{},"name":"Desmond'S Tavern"}
-- **Actual:** {"borough":"Manhattan","cuisine":"American","latitude":40.7441419,"longitude":-73.98306099999999,"name":"Desmond'S Tavern"}
+- ✔️ OK - Query **[ 31 ]**
 
 ---
 - ❌ MISMATCH - Query **[ 32 ]** Result does not match expected output.
