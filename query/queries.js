@@ -80,7 +80,7 @@ db.restaurants.find({}, {_id: 0}).sort({name: -1})
 db.restaurants.find({}, {_id: 0}).sort({cuisine: 1, borough: -1})
 
 // 28. Mostrar direccions que no contenen el carrer.
-db.restaurants.find({"address.street": {$exists: false}})
+db.restaurants.find({"address.street": {$exists: false}}, {_id: 0})
 
 // 29. Seleccionar documents on el valor de `coordinate` és de tipus Double. Mostrar el name, restaurant_id i coordinades.
 db.restaurants.find({"location.coordinates": {$type: "double"}}, {name: 1, restaurant_id: 1, "location.coordinates": 1, _id: 0})
