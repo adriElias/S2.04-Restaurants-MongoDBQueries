@@ -35,7 +35,7 @@ db.restaurants.find({$and: [{cuisine: {$ne: "American"}}, {"grades.score": {$gt:
 db.restaurants.find({cuisine: {$ne: "American"}, "grades.score": {$gt: 70}, "location.coordinates.0": {$lt: -65.754168}}, {_id:0})
 
 // 13. Trobar restaurants que no són 'American', grau 'A', i no són de Brooklyn. Ordenats per cuisine descendent.
-db.restaurants.find({cuisine: {$ne: "American"}, "grades.grade": "A", borough: {$ne: "Brooklyn"}}).sort({cuisine: -1})
+db.restaurants.find({cuisine: {$ne: "American"}, "grades.grade": "A", borough: {$ne: "Brooklyn"}}, {_id:0}).sort({cuisine: -1})
 
 // 14. Trobar restaurant_id, name, borough i cuisine on el nom comença amb 'Wil'.
 db.restaurants.find({name: {$regex: /^Wil/}}, {restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0})
@@ -73,7 +73,6 @@ db.restaurants.find({location: {$near: {$geometry: {type: "Point", coordinates: 
 // 25. Ordenar els noms dels restaurants en ordre ascendent, mostrant totes les columnes.
 db.restaurants.find({}, {_id: 0}).sort({name: 1})
 
-
 // 26. Ordenar els noms dels restaurants en ordre descendent, mostrant totes les columnes.
 db.restaurants.find({}, {_id: 0}).sort({name: -1})
 
@@ -90,7 +89,7 @@ db.restaurants.find({"location.coordinates": {$type: "double"}}, {name: 1, resta
 db.restaurants.find({"grades.score": {$mod: [7, 0]}}, {restaurant_id: 1, name: 1, "grades.grade": 1, _id: 0})
 
 // 31. Trobar name, borough, longitud, latitud i cuisine per noms que contenen 'mon'.
-db.restaurants.aggregate([{$match: {name: {$regex: /mon/i}}}, {$project: {name: 1, borough: 1, cuisine: 1, longitude: {$arrayElemAt: ["$location.coordinates", 0]}, latitude:  {$arrayElemAt: ["$location.coordinates", 1]}, _id: 0}}])
+db.restaurants.find({name: {$regex: /mon/i}}, {name: 1, borough: 1, "location.coordinates": 1, cuisine: 1, _id: 0})
 
 // 32. Mostrar restaurant_id, name i grade i score de més de 80 però menys que 100.
 db.restaurants.find({"grades.score": {$gt: 80, $lt: 100}}, {restaurant_id: 1, name: 1, "grades.grade": 1, "grades.score": 1, _id: 0})
